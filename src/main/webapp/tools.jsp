@@ -14,8 +14,7 @@
 </head>
 <body>
 
-<%--screwdriver - id 1001 - 5<form> Podaj ilosc: <input type="text" name="screwdriver"> <input type="submit" value="Wypozycz"><br> </form>--%>
-<%--hammer - id 1002 - 8<form> Podaj ilosc: <input type="text" name="screwdriver"> <input type="submit" value="Wypozycz"><br> </form>--%>
+<%@include file="header.jsp"%>
 
 <h2>Tools:</h2>
 

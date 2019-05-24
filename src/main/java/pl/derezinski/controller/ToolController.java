@@ -1,5 +1,6 @@
 package pl.derezinski.controller;
 
+import pl.derezinski.model.Tool;
 import pl.derezinski.service.ToolsService;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 @WebServlet(name = "ToolList" , value = "/")
 public class ToolController extends HttpServlet {
@@ -22,25 +25,25 @@ public class ToolController extends HttpServlet {
         initializeTools();
         String action = req.getParameter("action");
         if (action != null) {
-            processAction(action, Integer.valueOf(req.getParameter("id")));
+            processAction(action, Long.valueOf(req.getParameter("id")));
         }
         req.getRequestDispatcher("/tools.jsp").forward(req, resp);
     }
 
-    private void processAction(String action, int toolId) {
+    private void processAction(String action, Long toolId) {
+        List<Tool> tools = Collections.emptyList();
         switch (action) {
             case "take":
-                toolsService.takeTool(toolId);
+                tools = toolsService.takeTool(toolId);
                 break;
             case "return":
-                toolsService.returnTool(toolId);
+                tools = toolsService.returnTool(toolId);
                 break;
         }
+        getServletContext().setAttribute(TOOL_VAR_NAME, tools);
     }
 
     private void initializeTools() {
-        if (getServletContext().getAttribute(TOOL_VAR_NAME) == null) {
-            getServletContext().setAttribute(TOOL_VAR_NAME, toolsService.getTools());
-        }
+        getServletContext().setAttribute(TOOL_VAR_NAME, toolsService.getTools());
     }
 }
